@@ -2,6 +2,7 @@ const express = require('express');
 const requestId = require('express-request-id')();
 
 const logger = require('./config/logger');
+const api = require('./api');
 
 // iniciando app
 const app = express();
@@ -10,11 +11,8 @@ const app = express();
 app.use(requestId);
 app.use(logger.requests);
 
-app.get('/', (req, res, next) => {
-  res.json({
-    message: 'Bienvenido a la API LMU40',
-  });
-});
+// Configurando router y routes
+app.use('/api', api);
 
 // Manejo de rutas no encontradas
 app.use((req, res, next) => {
