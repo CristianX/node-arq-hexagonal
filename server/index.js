@@ -2,7 +2,7 @@ const express = require('express');
 const requestId = require('express-request-id')();
 
 const logger = require('./config/logger');
-const api = require('./api');
+const api = require('./api/v1');
 
 // iniciando app
 const app = express();
@@ -13,6 +13,7 @@ app.use(logger.requests);
 
 // Configurando router y routes
 app.use('/api', api);
+app.use('/api/v1', api);
 
 // Manejo de rutas no encontradas
 app.use((req, res, next) => {
