@@ -15,6 +15,7 @@ const requestFormat = ':remote-addr[:date[iso]]:id":method:url":status';
 const requests = morgan(requestFormat, {
   stream: {
     write: (message) => {
+      // Removiendo todas lasn lineas breaks
       const log = stripFinalNewline(message);
       return logger.info(log);
     },
@@ -23,5 +24,11 @@ const requests = morgan(requestFormat, {
 
 // Adjuntando al logger object
 logger.requests = requests;
+
+// Dando formato a los logger de request y adjuntadfno al logger object
+logger.header = (req) => {
+  const date = new Date().toISOString();
+  return `${req.ip} [${date}] ${req.id} "${req.method} ${req.originalUrl}"`;
+};
 
 module.exports = logger;
